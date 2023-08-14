@@ -3,7 +3,7 @@
   "dependencies": {
     "@sanjo-addons/events": "^2.0.0",
     "@sanjo-addons/coroutine": "^2.0.0",
-    "@sanjo-addons/bags": "^2.0.1",
+    "@sanjo-addons/bags": "^2.0.2",
     "@sanjo-addons/array": "^2.0.1",
     "@sanjo-addons/library": "^0.5.0",
     "@sanjo-addons/set": "^1.1.0"
