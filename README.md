@@ -1,6 +1,6 @@
-# Commodities Buyer and Seller
+# Money Making Assistant
 
-An add-on for buying and selling commodities in the auction house. This can help players to increase their efficiency.
+An add-on that assists you in making money in-game.
 
 ## Features
 
@@ -20,25 +20,23 @@ It's also possible to bind a key and press the key instead of clicking the butto
 
 ### Installation
 
-Download the [latest release](https://github.com/SanjoSolutions/CommodityBuyerAndSeller/releases) and extract the folders into the AddOns folder.
-
-The add-on is also available on [CurseForge](https://www.curseforge.com/wow/addons/commodities-buyer-and-seller/files).
+Download the [latest release](https://github.com/SanjoSolutions/MoneyMakingAssistant/releases) and extract the folders into the AddOns folder.
 
 ### Configuring what to buy and sell
 
 What is bought and sold can be configured by calling APIs with an additional add-on that the user can provide.
 
-You can download a template for such add-on [here](https://github.com/SanjoSolutions/CommodityBuyerAndSellerData.git).
+You can download a template for such add-on [here](https://github.com/SanjoSolutions/MoneyMakingAssistantData.git).
 
-In line 4 of [CommoditiesBuyerAndSellerData.lua](https://github.com/SanjoSolutions/CommodityBuyerAndSellerData/blob/b2281afd256ae4b02b03ae00def7da82890de2c5/CommodityBuyerAndSellerData.lua), you can add API calls.
+In line 4 of [MoneyMakingAssistantData.lua](https://github.com/SanjoSolutions/MoneyMakingAssistantData/blob/63af474816288fd7b18a74e0da8196c14306eed2/MoneyMakingAssistantData.lua), you can add API calls.
 
-The APIs that are available can be found in [CommodityBuyerAndSeller.lua](https://github.com/SanjoSolutions/CommodityBuyerAndSeller/blob/main/CommodityBuyerAndSeller/CommodityBuyerAndSeller.lua).
+The APIs that are available can be found in [MoneyMakingAssistant.lua](https://github.com/SanjoSolutions/MoneyMakingAssistant/blob/main/MoneyMakingAssistant/MoneyMakingAssistant.lua).
 
 ### Starting the process
 
 Open the auction house.
 
-Then run: `/run CommodityBuyerAndSellerData.doConfigured()` (if the add-on template has been used).
+Then run: `/run MoneyMakingAssistantData.doConfigured()` (if the add-on template has been used).
 
 This command can also be put into a macro.
 

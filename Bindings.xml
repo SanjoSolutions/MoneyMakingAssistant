@@ -1,12 +1,12 @@
 <Bindings>
-  <Binding name="COMMODITY_BUYER_AND_SELLER_CONFIRM_BUTTON" runOnUp="true" category="ADDONS" header="COMMODITY_BUYER_AND_SELLER">
+  <Binding name="MONEY_MAKING_ASSISTANT_CONFIRM_BUTTON" runOnUp="true" category="ADDONS" header="MONEY_MAKING_ASSISTANT">
     if keystate == 'down' then
-      CommodityBuyerAndSeller.confirm()
+      MoneyMakingAssistant.confirm()
     end
   </Binding>
-  <Binding name="COMMODITY_BUYER_AND_SELLER_STOP" runOnUp="true" category="ADDONS">
+  <Binding name="MONEY_MAKING_ASSISTANT_STOP" runOnUp="true" category="ADDONS">
     if keystate == 'down' then
-      CommodityBuyerAndSeller.stop()
+      MoneyMakingAssistant.stop()
     end
   </Binding>
 </Bindings>

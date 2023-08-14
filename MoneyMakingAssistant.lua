@@ -1,4 +1,4 @@
-CommodityBuyerAndSeller = {}
+MoneyMakingAssistant = {}
 
 local _ = {}
 
@@ -8,7 +8,7 @@ local _ = {}
 --- @param maximumTotalQuantityToPutIntoAuctionHouse number The maximum total quantity to put into the auction house.
 --- @param maximumQuantityToPutIntoAuctionHouseAtATime number The maximum quantity to put into the auction house at a time.
 --- @param minimumSellPricePerUnit number The minimum sell price per unit.
-function CommodityBuyerAndSeller.buyAndSell(
+function MoneyMakingAssistant.buyAndSell(
   itemID,
   maximumUnitPriceToBuyFor,
   maximumTotalQuantityToPutIntoAuctionHouse,
@@ -26,7 +26,7 @@ end
 --- Adds a buy task for an item.
 --- @param itemID number The item ID.
 --- @param maximumUnitPriceToBuyFor number The maximum unit price to buy for in gold.
-function CommodityBuyerAndSeller.buy(itemID, maximumUnitPriceToBuyFor)
+function MoneyMakingAssistant.buy(itemID, maximumUnitPriceToBuyFor)
   _.doIfIsCommodityOrShowInfoOtherwise(itemID, function()
     _.setSellTask(itemID, maximumUnitPriceToBuyFor)
     _.runLoop()
@@ -38,7 +38,7 @@ end
 --- @param maximumTotalQuantityToPutIntoAuctionHouse number The maximum total quantity to put into the auction house.
 --- @param maximumQuantityToPutIntoAuctionHouseAtATime number The maximum quantity to put into the auction house at a time.
 --- @param minimumSellPricePerUnit number The minimum sell price per unit.
-function CommodityBuyerAndSeller.sell(
+function MoneyMakingAssistant.sell(
   itemID,
   maximumTotalQuantityToPutIntoAuctionHouse,
   maximumQuantityToPutIntoAuctionHouseAtATime,
@@ -52,7 +52,7 @@ function CommodityBuyerAndSeller.sell(
 end
 
 --- Cancel auctions which are estimated to run out.
-function CommodityBuyerAndSeller.cancelAuctions()
+function MoneyMakingAssistant.cancelAuctions()
   if _.isAuctionHouseOpen() then
     Coroutine.runAsCoroutineImmediately(function()
       _.cancelAuctions()
@@ -75,30 +75,30 @@ local remainingQuantitiesToSell = {}
 local sellTasks = {}
 local purchaseTasks = {}
 
-CommodityBuyerAndSeller.thread = nil
-CommodityBuyerAndSeller.isEnabled = false
+MoneyMakingAssistant.thread = nil
+MoneyMakingAssistant.isEnabled = false
 
 local confirmButton
 
 --- Confirms the action.
 --- Can be done via button click or key press.
-function CommodityBuyerAndSeller.confirm()
+function MoneyMakingAssistant.confirm()
   confirmButton:Hide()
-  if CommodityBuyerAndSeller.thread then
-    local thread = CommodityBuyerAndSeller.thread
-    CommodityBuyerAndSeller.thread = nil
+  if MoneyMakingAssistant.thread then
+    local thread = MoneyMakingAssistant.thread
+    MoneyMakingAssistant.thread = nil
     Coroutine.resumeWithShowingError(thread, true)
   end
 end
 
 --- Stops the process.
-function CommodityBuyerAndSeller.stop()
-  CommodityBuyerAndSeller.isEnabled = false
+function MoneyMakingAssistant.stop()
+  MoneyMakingAssistant.isEnabled = false
   if confirmButton:IsShown() then
     confirmButton:Hide()
-    if CommodityBuyerAndSeller.thread then
-      local thread = CommodityBuyerAndSeller.thread
-      CommodityBuyerAndSeller.thread = nil
+    if MoneyMakingAssistant.thread then
+      local thread = MoneyMakingAssistant.thread
+      MoneyMakingAssistant.thread = nil
       Coroutine.resumeWithShowingError(thread, false)
     end
   end
@@ -222,7 +222,7 @@ local isLoopRunning = false
 
 function _.runLoop()
   if not isLoopRunning then
-    CommodityBuyerAndSeller.isEnabled = true
+    MoneyMakingAssistant.isEnabled = true
     isLoopRunning = true
 
     print('Commodity buyer and seller process has started.')
@@ -238,7 +238,7 @@ function _.runLoop()
     end)
 
     local function keepRunning()
-      return isAuctionHouseOpen and CommodityBuyerAndSeller.isEnabled
+      return isAuctionHouseOpen and MoneyMakingAssistant.isEnabled
     end
 
     Coroutine.runAsCoroutineImmediately(function()
@@ -419,14 +419,14 @@ confirmButton:SetSize(144, 48)
 confirmButton:SetText('Confirm')
 confirmButton:SetPoint('CENTER', 0, 0)
 confirmButton:SetScript('OnClick', function()
-  CommodityBuyerAndSeller.confirm()
+  MoneyMakingAssistant.confirm()
 end)
 confirmButton:SetFrameStrata('HIGH')
 confirmButton:Hide()
 
 function _.showConfirmButton()
   confirmButton:Show()
-  CommodityBuyerAndSeller.thread = coroutine.running()
+  MoneyMakingAssistant.thread = coroutine.running()
   local continue = coroutine.yield()
   return continue
 end
