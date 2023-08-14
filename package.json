@@ -1,5 +1,4 @@
 {
-  "private": true,
   "dependencies": {
     "Events": "SanjoSolutions/LuaEvents#v1.1.0",
     "Coroutine": "SanjoSolutions/LuaCoroutine#v1.1.0",
