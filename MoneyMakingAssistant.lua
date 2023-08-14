@@ -2,6 +2,11 @@ MoneyMakingAssistant = {}
 
 local _ = {}
 
+local Events = Library.retrieve('Events', '^1.0.0')
+local Coroutine = Library.retrieve('Coroutine', '^1.0.0')
+local Bags = Library.retrieve('Bags', '^1.0.0')
+local Array = Library.retrieve('Array', '^1.0.0')
+
 _.AUCTION_HOUSE_CUT = 0.05
 
 --- Adds a buy and sell task for an item.

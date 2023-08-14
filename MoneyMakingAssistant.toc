@@ -1,7 +1,7 @@
 ## Title: Money Making Assistant
 ## Version: 0.0.0
 ## Interface: 100105
-## Dependencies: Events, Coroutine, Bags, Array
+## Dependencies: Library
 ## OptionalDeps: TradeSkillMaster
 
 MoneyMakingAssistant.lua
