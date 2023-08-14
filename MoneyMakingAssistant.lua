@@ -2,6 +2,8 @@ MoneyMakingAssistant = {}
 
 local _ = {}
 
+_.AUCTION_HOUSE_CUT = 0.05
+
 --- Adds a buy and sell task for an item.
 --- @param itemID number The item ID.
 --- @param maximumUnitPriceToBuyFor number The maximum unit price to buy for in gold.
@@ -185,6 +187,14 @@ end
 function _.setBuyTask(itemID, maximumTotalQuantityToPutIntoAuctionHouse, maximumQuantityToPutIntoAuctionHouseAtATime,
   minimumSellPricePerUnit)
   minimumSellPricePerUnit = minimumSellPricePerUnit * 10000
+
+  _.loadItem(itemID)
+  local npcVendorSellPrice = select(11, GetItemInfo(itemID))
+  if npcVendorSellPrice >= minimumSellPricePerUnit * (1 - _.AUCTION_HOUSE_CUT) then
+    minimumSellPricePerUnit = _.removeCopper(npcVendorSellPrice / (1 - _.AUCTION_HOUSE_CUT) + 100)
+    local itemLink = select(2, GetItemInfo(itemID))
+    print('The minimum sell price per unit for ' .. itemLink .. ' was set lower than the NPC vendor sell price with consideration of the auction house cut (' .. (_.AUCTION_HOUSE_CUT * 100) .. '%). The minimum sell price has been automatically set to the lowest value where more profit can be made than selling the goods to the NPC vendor (' .. GetMoneyString(minimumSellPricePerUnit) .. '). If the goods are in for a price lower than this sell price, you can also consider to sell the goods directly to the NPC vendor.')
+  end
 
   if not remainingQuantitiesToSell[itemID] then
     remainingQuantitiesToSell[itemID] = 0
@@ -502,4 +512,8 @@ end
 
 function _.isAuctionHouseOpen()
   return AuctionHouseFrame:IsShown()
+end
+
+function _.removeCopper(value)
+	return math.floor(value / 100) * 100
 end
