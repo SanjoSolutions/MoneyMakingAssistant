@@ -1,10 +1,14 @@
 {
+  "version": "0.0.0",
   "dependencies": {
-    "@sanjo-addons/events": "SanjoSolutions/LuaEvents#v1.0.0",
-    "@sanjo-addons/coroutine": "SanjoSolutions/LuaCoroutine#v1.0.0",
-    "@sanjo-addons/bags": "SanjoSolutions/LuaBags#v1.0.0",
-    "@sanjo-addons/array": "SanjoSolutions/LuaArray#v1.0.0",
-    "@sanjo-addons/library": "SanjoSolutions/LuaLibrary#v0.4.0",
-    "@sanjo-addons/set": "SanjoSolutions/LuaSet#v1.0.0"
+    "@sanjo-addons/events": "^2.0.0",
+    "@sanjo-addons/coroutine": "^2.0.0",
+    "@sanjo-addons/bags": "^2.0.1",
+    "@sanjo-addons/array": "^2.0.1",
+    "@sanjo-addons/library": "^0.5.0",
+    "@sanjo-addons/set": "^1.1.0"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }
