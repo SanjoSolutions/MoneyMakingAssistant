@@ -23,11 +23,13 @@ function MoneyMakingAssistant.buyAndSell(
   maximumQuantityToPutIntoAuctionHouseAtATime,
   minimumSellPricePerUnit
 )
-  _.doIfIsCommodityOrShowInfoOtherwise(itemID, function()
-    _.setBuyTask(itemID, maximumTotalQuantityToPutIntoAuctionHouse, maximumQuantityToPutIntoAuctionHouseAtATime,
-      minimumSellPricePerUnit)
-    _.setSellTask(itemID, maximumUnitPriceToBuyFor)
-    _.runLoop()
+  Coroutine.runAsCoroutineImmediately(function()
+    _.doIfIsCommodityOrShowInfoOtherwise(itemID, function()
+      _.setBuyTask(itemID, maximumTotalQuantityToPutIntoAuctionHouse, maximumQuantityToPutIntoAuctionHouseAtATime,
+        minimumSellPricePerUnit)
+      _.setSellTask(itemID, maximumUnitPriceToBuyFor)
+      _.runLoop()
+    end)
   end)
 end
 
@@ -35,9 +37,11 @@ end
 --- @param itemID number The item ID.
 --- @param maximumUnitPriceToBuyFor number The maximum unit price to buy for in gold.
 function MoneyMakingAssistant.buy(itemID, maximumUnitPriceToBuyFor)
-  _.doIfIsCommodityOrShowInfoOtherwise(itemID, function()
-    _.setSellTask(itemID, maximumUnitPriceToBuyFor)
-    _.runLoop()
+  Coroutine.runAsCoroutineImmediately(function()
+    _.doIfIsCommodityOrShowInfoOtherwise(itemID, function()
+      _.setSellTask(itemID, maximumUnitPriceToBuyFor)
+      _.runLoop()
+    end)
   end)
 end
 
@@ -52,10 +56,12 @@ function MoneyMakingAssistant.sell(
   maximumQuantityToPutIntoAuctionHouseAtATime,
   minimumSellPricePerUnit
 )
-  _.doIfIsCommodityOrShowInfoOtherwise(itemID, function()
-    _.setBuyTask(itemID, maximumTotalQuantityToPutIntoAuctionHouse, maximumQuantityToPutIntoAuctionHouseAtATime,
-      minimumSellPricePerUnit)
-    _.runLoop()
+  Coroutine.runAsCoroutineImmediately(function()
+    _.doIfIsCommodityOrShowInfoOtherwise(itemID, function()
+      _.setBuyTask(itemID, maximumTotalQuantityToPutIntoAuctionHouse, maximumQuantityToPutIntoAuctionHouseAtATime,
+        minimumSellPricePerUnit)
+      _.runLoop()
+    end)
   end)
 end
 
