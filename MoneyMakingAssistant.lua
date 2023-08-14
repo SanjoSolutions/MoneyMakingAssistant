@@ -2,10 +2,11 @@ MoneyMakingAssistant = {}
 
 local _ = {}
 
-local Events = Library.retrieve('Events', '^1.0.0')
-local Coroutine = Library.retrieve('Coroutine', '^1.0.0')
-local Bags = Library.retrieve('Bags', '^1.0.0')
-local Array = Library.retrieve('Array', '^1.0.0')
+local Events = Library.retrieve('Events', '^2.0.0')
+local Coroutine = Library.retrieve('Coroutine', '^2.0.0')
+local Bags = Library.retrieve('Bags', '^2.0.0')
+local Array = Library.retrieve('Array', '^2.0.0')
+local Set = Library.retrieve('Set', '^1.1.0')
 
 _.AUCTION_HOUSE_CUT = 0.05
 
