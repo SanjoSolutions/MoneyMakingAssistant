@@ -63,10 +63,10 @@ function MoneyMakingAssistant.cancelAuctions()
 end
 
 do
-  BINDING_HEADER_COMMODITY_BUYER_AND_SELLER = 'Commodity Buyer and Seller'
-  local prefix = 'Commodity Buyer and Seller: '
-  BINDING_NAME_COMMODITY_BUYER_AND_SELLER_CONFIRM_BUTTON = prefix .. 'Confirm'
-  BINDING_NAME_COMMODITY_BUYER_AND_SELLER_STOP = prefix .. 'Stop'
+  BINDING_HEADER_MONEY_MAKING_ASSISTANT = 'Money Making Assistant'
+  local prefix = 'Money Making Assistant: '
+  BINDING_NAME_MONEY_MAKING_ASSISTANT_CONFIRM_BUTTON = prefix .. 'Confirm'
+  BINDING_NAME_MONEY_MAKING_ASSISTANT_STOP = prefix .. 'Stop'
 end
 
 local tasks = {}
