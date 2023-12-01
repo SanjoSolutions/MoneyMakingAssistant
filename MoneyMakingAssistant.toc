@@ -1,7 +1,6 @@
 ## Title: Money Making Assistant
 ## Version: 0.0.0
 ## Interface: 100105
-## Dependencies: Library
 ## OptionalDeps: TradeSkillMaster
 
 node_modules\@sanjo-addons\library\Library.xml
