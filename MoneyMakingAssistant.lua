@@ -35,6 +35,7 @@ function MoneyMakingAssistant.buyAndSell(
     end)
   end)
 end
+
 --- Adds a buy task for an item.
 --- @param itemID number The item ID.
 --- @param maximumUnitPriceToBuyFor number The maximum unit price to buy for in gold.
@@ -46,6 +47,7 @@ function MoneyMakingAssistant.buy(itemID, maximumUnitPriceToBuyFor)
     end)
   end)
 end
+
 --- Adds a sell task for an item.
 --- @param itemID number The item ID.
 --- @param maximumTotalQuantityToPutIntoAuctionHouse number The maximum total quantity to put into the auction house.
@@ -66,6 +68,7 @@ function MoneyMakingAssistant.sell(
     end)
   end)
 end
+
 --- Cancel auctions which are estimated to run out.
 function MoneyMakingAssistant.cancelAuctions()
   if _.isAuctionHouseOpen() then
@@ -76,6 +79,7 @@ function MoneyMakingAssistant.cancelAuctions()
     end)
   end
 end
+
 do
   BINDING_HEADER_MONEY_MAKING_ASSISTANT = "Money Making Assistant"
   local prefix = "Money Making Assistant: "
@@ -104,6 +108,7 @@ function MoneyMakingAssistant.confirm()
     Coroutine.resumeWithShowingError(thread, true)
   end
 end
+
 --- Stops the process.
 function MoneyMakingAssistant.stop()
   MoneyMakingAssistant.isEnabled = false
@@ -116,12 +121,15 @@ function MoneyMakingAssistant.stop()
     end
   end
 end
+
 local sorts = {
   {
     sortOrder = Enum.AuctionHouseSortOrder.Price,
     reverseSort = false,
   },
 }
+
+local averageSoldPerDayMultiplier = 2 -- to account for that the stat has been derived from TSM users and that some players might not use TSM.
 
 function _.cancelAuctions()
   _.isCancelling = true
@@ -144,8 +152,8 @@ function _.cancelAuctions()
   end)
 
   for itemID in itemIDs:iterator() do
-    local amountSoldPerDay = TSM_API.GetCustomPriceValue("dbregionsoldperday",
-      "i:" .. itemID)
+    local amountSoldPerDay = (TSM_API.GetCustomPriceValue("dbregionsoldperday*1000",
+      "i:" .. itemID) or 0) * averageSoldPerDayMultiplier / 1000
     if amountSoldPerDay then
       local itemKey = { itemID = itemID, }
       C_AuctionHouse.SendSearchQuery(
@@ -206,6 +214,7 @@ function _.cancelAuctions()
 
   _.isCancelling = false
 end
+
 function _.setBuyTask(itemID, maximumTotalQuantityToPutIntoAuctionHouse,
   maximumQuantityToPutIntoAuctionHouseAtATime,
   minimumSellPricePerUnit)
@@ -242,6 +251,7 @@ function _.setBuyTask(itemID, maximumTotalQuantityToPutIntoAuctionHouse,
   }
   _.setTask(task)
 end
+
 function _.setSellTask(itemID, maximumUnitPriceToBuyFor)
   local task = {
     type = "buy",
@@ -250,6 +260,7 @@ function _.setSellTask(itemID, maximumUnitPriceToBuyFor)
   }
   _.setTask(task)
 end
+
 function _.setTask(task)
   if not tasks[task.itemID] then
     tasks[task.itemID] = {}
@@ -257,6 +268,7 @@ function _.setTask(task)
 
   tasks[task.itemID][task.type] = task
 end
+
 local isLoopRunning = false
 
 function _.runLoop()
@@ -314,8 +326,7 @@ function _.runLoop()
 
             if event == "AUCTION_HOUSE_SHOW_ERROR" and argument1 == 10 then
               Events.waitForEvent("AUCTION_HOUSE_THROTTLED_SYSTEM_READY")
-            end
-            if event == "COMMODITY_SEARCH_RESULTS_UPDATED" then
+            elseif event == "COMMODITY_SEARCH_RESULTS_UPDATED" then
               local buyTask = tasks[itemID].buy
               if buyTask then
                 local maximumUnitPriceToBuyFor = buyTask
@@ -401,6 +412,7 @@ function _.runLoop()
     end)
   end
 end
+
 function _.determineUnitPrice(itemID)
   local numberOfCommoditySearchResults = C_AuctionHouse
     .GetNumCommoditySearchResults(itemID)
@@ -413,6 +425,7 @@ function _.determineUnitPrice(itemID)
 
   return nil
 end
+
 function _.determineQuantityAlreadyOnTopInAuctionHouse(task)
   local itemID = task.itemID
   local quantity = 0
@@ -427,6 +440,7 @@ function _.determineQuantityAlreadyOnTopInAuctionHouse(task)
   end
   return quantity
 end
+
 function _.queueSellTaskAndWorkThroughSellTasks(task, unitPrice,
   quantityAlreadyOnTopInAuctionHouse)
   local itemID = task.itemID
@@ -444,6 +458,7 @@ function _.queueSellTaskAndWorkThroughSellTasks(task, unitPrice,
     _.workThroughSellTasks()
   end
 end
+
 function _.workThroughSellTasks()
   while Array.hasElements(sellTasks) do
     local sellTask = table.remove(sellTasks, 1)
@@ -483,6 +498,7 @@ function _.workThroughSellTasks()
     end
   end
 end
+
 confirmButton = CreateFrame("Button", nil, UIParent, "UIPanelButtonTemplate")
 MoneyMakingAssistant.confirmButton = confirmButton
 confirmButton:SetSize(144, 48)
@@ -500,6 +516,7 @@ function MoneyMakingAssistant.showConfirmButton()
   local continue = coroutine.yield()
   return continue
 end
+
 function _.workThroughPurchaseTasks()
   while Array.hasElements(purchaseTasks) do
     local purchaseTask = table.remove(purchaseTasks, 1)
@@ -539,6 +556,7 @@ function _.workThroughPurchaseTasks()
     end
   end
 end
+
 function _.loadItem(itemID)
   local item = Item:CreateFromItemID(itemID)
   if not item:IsItemDataCached() then
@@ -551,6 +569,7 @@ function _.loadItem(itemID)
     coroutine.yield()
   end
 end
+
 function _.isCommodityItem(itemIdentifier)
   local classID, subclassID = select(6, GetItemInfoInstant(itemIdentifier))
   return (
@@ -564,6 +583,7 @@ function _.isCommodityItem(itemIdentifier)
     classID == Enum.ItemClass.Key
   )
 end
+
 function _.doIfIsCommodityOrShowInfoOtherwise(itemID, fn)
   if _.isCommodityItem(itemID) then
     fn()
@@ -571,23 +591,28 @@ function _.doIfIsCommodityOrShowInfoOtherwise(itemID, fn)
     _.showInfoThatItemSeemsToBeOfAnotherClassThanCommodities(itemID)
   end
 end
+
 function _.showInfoThatItemSeemsToBeOfAnotherClassThanCommodities(itemID)
   _.loadItem(itemID)
   local itemLink = select(2, GetItemInfo(itemID))
   print("Commodity buyer and seller currently only supports commodity items. " ..
     itemLink .. " (" .. itemID .. ") seems to be of another class.")
 end
+
 function _.isAuctionHouseOpen()
   return AuctionHouseFrame:IsShown()
 end
+
 function _.removeCopper(value)
   return math.floor(value / 100) * 100
 end
+
 local priceFalls = {}
 
 function _.isNewPriceFall(itemID, unitPrice)
   return not priceFalls[itemID] or unitPrice < priceFalls[itemID]
 end
+
 function _.registerPriceFall(itemID, unitPrice)
   priceFalls[itemID] = unitPrice
 end
